@@ -11,7 +11,6 @@ namespace PHPUnit\Framework\MockObject;
 
 use function array_merge;
 use function assert;
-use function debug_backtrace;
 use PHPUnit\Framework\InvalidArgumentException;
 use PHPUnit\Framework\MockObject\Generator\ClassAlreadyExistsException;
 use PHPUnit\Framework\MockObject\Generator\ClassIsEnumerationException;
@@ -19,7 +18,6 @@ use PHPUnit\Framework\MockObject\Generator\ClassIsFinalException;
 use PHPUnit\Framework\MockObject\Generator\DuplicateMethodException;
 use PHPUnit\Framework\MockObject\Generator\Generator;
 use PHPUnit\Framework\MockObject\Generator\InvalidMethodNameException;
-use PHPUnit\Framework\MockObject\Generator\OriginalConstructorInvocationRequiredException;
 use PHPUnit\Framework\MockObject\Generator\ReflectionException;
 use PHPUnit\Framework\MockObject\Generator\RuntimeException;
 use PHPUnit\Framework\MockObject\Generator\UnknownTypeException;
@@ -53,9 +51,6 @@ final class MockBuilder
     private array $constructorArgs      = [];
     private bool $originalConstructor   = true;
     private bool $originalClone         = true;
-    private bool $autoload              = true;
-    private bool $callOriginalMethods   = false;
-    private ?object $proxyTarget        = null;
     private bool $returnValueGeneration = true;
     private readonly Generator $generator;
 
@@ -78,7 +73,6 @@ final class MockBuilder
      * @throws DuplicateMethodException
      * @throws InvalidArgumentException
      * @throws InvalidMethodNameException
-     * @throws OriginalConstructorInvocationRequiredException
      * @throws ReflectionException
      * @throws RuntimeException
      * @throws UnknownTypeException
@@ -96,11 +90,6 @@ final class MockBuilder
             $this->mockClassName ?? '',
             $this->originalConstructor,
             $this->originalClone,
-            $this->autoload,
-            false,
-            $this->callOriginalMethods,
-            $this->proxyTarget,
-            false,
             $this->returnValueGeneration,
         );
 
@@ -245,12 +234,5 @@ final class MockBuilder
         $this->returnValueGeneration = false;
 
         return $this;
-    }
-
-    private function calledFromTestCase(): bool
-    {
-        $caller = debug_backtrace(limit: 3)[2];
-
-        return isset($caller['class']) && $caller['class'] === TestCase::class;
     }
 }
