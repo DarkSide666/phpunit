@@ -1180,7 +1180,6 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
         $mock = (new MockGenerator)->testDouble(
             $originalClassName,
             true,
-            true,
             callOriginalConstructor: false,
             callOriginalClone: false,
             returnValueGeneration: self::generateReturnValuesForTestDoubles(),
@@ -2172,7 +2171,6 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
     {
         $stub = (new MockGenerator)->testDouble(
             $originalClassName,
-            true,
             false,
             callOriginalConstructor: false,
             callOriginalClone: false,
