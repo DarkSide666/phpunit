@@ -286,7 +286,7 @@ final class Generator
         $className = $mockClass->generate();
         $object    = $this->instantiate($className, $callOriginalConstructor, $arguments);
 
-        if ($object instanceof StubInternal && $mockClass instanceof MockClass) {
+        if ($object instanceof StubInternal) {
             /**
              * @psalm-suppress MissingThrowsDocblock
              *
